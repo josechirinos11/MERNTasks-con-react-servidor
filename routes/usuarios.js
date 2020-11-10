@@ -1,12 +1,19 @@
 //rutas para crear usuarios
 const express = require('express')
 const router = express.Router()
-const usuarioControllers = require('../controllers/usuarioControllers')
+const usuarioControllers = require('../controllers/usuarioController')
+const { check } = require('express-validator')
 
 
 //crear usuario 
 // api/usuarios
 router.post('/',
+[
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('email', 'El email es obligatorio').isEmail(),
+    check('password', 'El password debe ser minimo 6 caracteres').isLength({ min: 6 })
+],
+
     usuarioControllers.crearUsuario
 )
 
